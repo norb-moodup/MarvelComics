@@ -2,7 +2,7 @@ package pl.norb.marvelcomics.models
 
 import com.google.gson.annotations.SerializedName
 
-class MarvelDataModel {
+data class MarvelDataModel(
     @SerializedName("results")
-    var results = ArrayList<MarvelResultsModel>()
-}
+    val results: ArrayList<MarvelResultsModel>
+)

@@ -2,9 +2,9 @@ package pl.norb.marvelcomics.models
 
 import com.google.gson.annotations.SerializedName
 
-class MarvelThumbnailModel {
+data class MarvelThumbnailModel(
     @SerializedName("path")
-    var path : String? = ""
+    val path: String = "",
     @SerializedName("extension")
-    var extension : String? = ""
-}
+    val extension: String = ""
+)

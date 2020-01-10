@@ -2,11 +2,9 @@ package pl.norb.marvelcomics.models
 
 import com.google.gson.annotations.SerializedName
 
-class MarvelModel {
+data class MarvelModel(
     @SerializedName("code")
-    var code : String? = ""
-
+    val code: String = "",
     @SerializedName("data")
-    var data : MarvelDataModel? = null
-
-}
+    val data: MarvelDataModel
+)

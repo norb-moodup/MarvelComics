@@ -2,13 +2,13 @@ package pl.norb.marvelcomics.models
 
 import com.google.gson.annotations.SerializedName
 
-class MarvelResultsModel {
+data class MarvelResultsModel(
     @SerializedName("id")
-    var comicId : String? = ""
+    val comicId: String = "",
     @SerializedName("title")
-    var comicTitle : String? = ""
+    val comicTitle: String = "",
     @SerializedName("description")
-    var comicDescription : String ? = ""
+    val comicDescription: String = "",
     @SerializedName("thumbnail")
-    var comicThumbnailUrl : MarvelThumbnailModel? = null
-}
+    val comicThumbnailUrl: MarvelThumbnailModel
+)
