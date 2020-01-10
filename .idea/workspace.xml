@@ -11,28 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d63337cf-7bfa-4598-9405-8389b3c110c6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_3_12_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_15_0_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/activities/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/activities/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelDataModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelDataModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelResultsModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelResultsModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelThumbnailModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/models/MarvelThumbnailModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,10 +55,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/activities/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+            <state relative-caret-position="292">
+              <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
               <folding>
-                <element signature="e#41#504#0" expanded="true" />
+                <element signature="e#41#563#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -494,7 +478,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.32960597" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.32960597" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -504,13 +488,13 @@
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32928064" />
       <window_info anchor="bottom" id="Run" order="1" weight="0.32928064" />
-      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.49946752" visible="true" weight="0.32928064" />
+      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.49946752" weight="0.32928064" />
       <window_info anchor="bottom" id="TODO" order="3" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.32928064" />
       <window_info anchor="bottom" id="Terminal" order="5" weight="0.32928064" />
       <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.5005325" side_tool="true" weight="0.32928064" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Debug" order="8" sideWeight="0.49946752" weight="0.32928064" />
+      <window_info active="true" anchor="bottom" id="Debug" order="8" sideWeight="0.49946752" visible="true" weight="0.32928064" />
       <window_info anchor="bottom" id="Android Profiler" order="9" />
       <window_info anchor="right" id="Preview" weight="0.32960597" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
@@ -554,9 +538,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/activities/MainActivity.kt</url>
-          <line>37</line>
+          <line>44</line>
           <properties />
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/activities/MainActivity.kt</url>
+          <line>40</line>
+          <properties />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -728,10 +718,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/pl/norb/marvelcomics/activities/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+        <state relative-caret-position="292">
+          <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
           <folding>
-            <element signature="e#41#504#0" expanded="true" />
+            <element signature="e#41#563#0" expanded="true" />
           </folding>
         </state>
       </provider>
