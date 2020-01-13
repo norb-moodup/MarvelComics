@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import pl.norb.marvelcomics.R
@@ -20,6 +21,13 @@ class MainActivity : AppCompatActivity() {
 
     private val marvelViewModel: MarvelViewModel by viewModel()
     private var offset = 0
+    lateinit var layoutManager: LinearLayoutManager
+    lateinit var marvelAdapter: MarvelAdapter
+
+    private var isLoading = false
+    private var isAdapterInitialized = false
+    private var title = ""
+    private var marvelComicsList: ArrayList<MarvelResultsModel> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +48,20 @@ class MainActivity : AppCompatActivity() {
                     hideKeyboard()
                     offset = 0
                     getComics()
+                    isAdapterInitialized = false
+                    marvelComicsList.clear()
+                    title = ""
                 }
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                getComics(query)
+                title = query
+                getComics(title)
                 hideKeyboard()
                 offset = 0
+                isAdapterInitialized = false
+                marvelComicsList.clear()
                 return false
             }
         }
@@ -56,15 +70,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun getComics() {
         progressView.visibility = View.VISIBLE
+        isLoading = true
         marvelViewModel.getComics(offset)
             .subscribe(
                 { marvel ->
                     hideSpinner()
+                    isLoading = false
                     initRecyclerView(marvel.data.results)
                 },
                 { e ->
                     Log.e(TAG, e.printStackTrace().toString())
                     hideSpinner()
+                    isLoading = false
                 }
             )
     }
@@ -94,29 +111,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideSpinner() {
-        runOnUiThread {
-            progressView.visibility = View.GONE
-            noComicsView.visibility = View.VISIBLE
-        }
+        progressView.visibility = View.GONE
+        noComicsView.visibility = View.VISIBLE
+
     }
 
     private fun initRecyclerView(comicsList: ArrayList<MarvelResultsModel>) {
-        runOnUiThread {
-            offset++
-            if (comicsList.isEmpty()) {
-                noComicsView.visibility = View.VISIBLE
-                comicsRecyclerView.visibility = View.GONE
+        marvelComicsList.addAll(comicsList)
+        layoutManager = LinearLayoutManager(this)
+        if (comicsList.isEmpty()) {
+            noComicsView.visibility = View.VISIBLE
+            comicsRecyclerView.visibility = View.GONE
+        } else {
+            noComicsView.visibility = View.GONE
+            comicsRecyclerView.visibility = View.VISIBLE
+            comicsRecyclerView.layoutManager = layoutManager
+            if (!isAdapterInitialized) {
+                marvelAdapter = MarvelAdapter(marvelComicsList)
+                comicsRecyclerView.adapter = marvelAdapter
+                isAdapterInitialized = true
             } else {
-                noComicsView.visibility = View.GONE
-                comicsRecyclerView.visibility = View.VISIBLE
-                val marvelAdapter = MarvelAdapter(comicsList)
                 marvelAdapter.notifyDataSetChanged()
-                comicsRecyclerView.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = marvelAdapter
-                }
             }
+
+            comicsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val visibleItemCount = layoutManager.childCount
+                    val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    val total = marvelAdapter.itemCount
+
+                    if (!isLoading) {
+                        if ((visibleItemCount + pastVisibleItem) >= total) {
+                            offset++
+                            if (title.isEmpty()) {
+                                getComics()
+                            } else {
+                                getComics(title)
+                            }
+                        }
+
+                    }
+                }
+            })
         }
     }
 
