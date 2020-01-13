@@ -1,31 +1,38 @@
 package pl.norb.marvelcomics.backend
 
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import pl.norb.marvelcomics.BuildConfig
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import io.reactivex.Single
+import org.koin.sampleapp.util.rx.SchedulerProvider
+import pl.norb.marvelcomics.models.MarvelModel
 
+class ApiClient(
+    private val apiService: ApiService,
+    private val schedulersProvider: SchedulerProvider
+) : ApiClientInterface {
+    override fun getComics(
+        ts: Int,
+        apikey: String,
+        hash: String,
+        limit: Int,
+        offset: Int,
+        orderBy: String
+    ): Single<MarvelModel> {
+        return apiService.getComics(ts, apikey, hash, limit, offset, orderBy)
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+    }
 
-object ApiClient {
-    val getClient: ApiService
-        get() {
-            val gson = GsonBuilder()
-                .setLenient()
-                .create()
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.level = HttpLoggingInterceptor.Level.BASIC
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+    override fun getComics(
+        ts: Int,
+        apikey: String,
+        hash: String,
+        limit: Int,
+        offset: Int,
+        title: String,
+        orderBy: String
+    ): Single<MarvelModel> {
+        return apiService.getComics(ts, apikey, hash, limit, offset, title, orderBy)
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+    }
 
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-                .build()
-
-            return retrofit.create(ApiService::class.java)
-        }
 }

@@ -6,7 +6,7 @@ import pl.norb.marvelcomics.models.MarvelModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-open interface ApiService {
+interface ApiService {
     @GET("comics")
     fun getComics(
         @Query("ts") ts: Int,
