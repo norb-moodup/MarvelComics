@@ -101,11 +101,13 @@ class MainActivity : AppCompatActivity() {
             .subscribe(
                 { marvel ->
                     hideSpinner()
+                    isLoading = false
                     initRecyclerView(marvel.data.results)
                 },
                 { e ->
                     Log.e(TAG, e.printStackTrace().toString())
                     hideSpinner()
+                    isLoading = false
                 }
             )
     }
