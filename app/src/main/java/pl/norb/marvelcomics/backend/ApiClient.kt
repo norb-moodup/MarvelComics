@@ -14,25 +14,10 @@ class ApiClient(
         hash: String,
         limit: Int,
         offset: Int,
-        orderBy: String
-    ): Single<MarvelModel> {
-        return apiService.getComics(ts, apikey, hash, limit, offset, orderBy)
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-    }
-
-    override fun getComics(
-        ts: Int,
-        apikey: String,
-        hash: String,
-        limit: Int,
-        offset: Int,
-        title: String,
+        title: String?,
         orderBy: String
     ): Single<MarvelModel> {
         return apiService.getComics(ts, apikey, hash, limit, offset, title, orderBy)
             .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-    }
-
+            .observeOn(schedulersProvider.ui())    }
 }

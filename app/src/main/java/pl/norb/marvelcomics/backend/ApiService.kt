@@ -14,17 +14,7 @@ interface ApiService {
         @Query("hash") hash: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
-        @Query("orderBy") orderBy: String
-    ): Single<MarvelModel>
-
-    @GET("comics")
-    fun getComics(
-        @Query("ts") ts: Int,
-        @Query("apikey") apikey: String,
-        @Query("hash") hash: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int,
-        @Nullable @Query("title") title: String,
+        @Nullable @Query("title") title: String?,
         @Query("orderBy") orderBy: String
     ): Single<MarvelModel>
 }

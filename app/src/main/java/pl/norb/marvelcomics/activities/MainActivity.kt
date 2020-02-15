@@ -1,22 +1,21 @@
 package pl.norb.marvelcomics.activities
 
+import android.app.AlertDialog
 import android.content.Context
-import android.os.Bundle
-import android.util.Log
-import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import pl.norb.marvelcomics.R
 import pl.norb.marvelcomics.adapters.MarvelAdapter
+import pl.norb.marvelcomics.models.AppState
 import pl.norb.marvelcomics.models.MarvelResultsModel
 import pl.norb.marvelcomics.viewmodels.MarvelViewModel
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : BaseActivity() {
     private val TAG = "MainActivityTag"
 
     private val marvelViewModel: MarvelViewModel by viewModel()
@@ -24,20 +23,58 @@ class MainActivity : AppCompatActivity() {
     lateinit var layoutManager: LinearLayoutManager
     lateinit var marvelAdapter: MarvelAdapter
 
-    private var isLoading = false
-    private var isAdapterInitialized = false
     private var title = ""
+    private var isAdapterInitialized = false
     private var marvelComicsList: ArrayList<MarvelResultsModel> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        onActivityReady()
+    override fun onActivityReady() {
+        initStateObserve()
+        initSearch()
+        marvelViewModel.onViewReady()
     }
 
-    private fun onActivityReady() {
-        getComics()
-        initSearch()
+    override fun getLayout(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun showLoading(shouldShow: Boolean) {
+        progressView.visibility = if (shouldShow) VISIBLE else GONE
+    }
+
+    override fun showError(message: String) {
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setNeutralButton("Ok") { dialog, which ->
+            noComicsView.visibility = VISIBLE
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    fun initStateObserve() {
+        marvelViewModel.appState.observe(this, Observer { appState ->
+            when (appState) {
+                is AppState.Initialized -> marvelViewModel.getComics(offset, null)
+                is AppState.InProgress -> showLoading(true)
+                is AppState.NoResults -> {
+                    noComicsView.visibility = VISIBLE
+                    comicsRecyclerView.visibility = GONE
+                    showLoading(false)
+                }
+                is AppState.OnResults -> {
+                    noComicsView.visibility = GONE
+                    comicsRecyclerView.visibility = VISIBLE
+                    initRecyclerView(appState.marvelList)
+                    showLoading(false)
+                }
+                is AppState.Error -> {
+                    showError(appState.errorMessage.toString())
+                    comicsRecyclerView.visibility = GONE
+                    showLoading(false)
+                }
+            }
+        })
     }
 
     private fun initSearch() {
@@ -47,8 +84,7 @@ class MainActivity : AppCompatActivity() {
                 if (newText.equals("")) {
                     hideKeyboard()
                     offset = 0
-                    getComics()
-                    isAdapterInitialized = false
+                    marvelViewModel.getComics(offset, null)
                     marvelComicsList.clear()
                     title = ""
                 }
@@ -57,33 +93,14 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 title = query
-                getComics(title)
-                hideKeyboard()
                 offset = 0
-                isAdapterInitialized = false
+                marvelViewModel.getComics(offset, title)
+                hideKeyboard()
                 marvelComicsList.clear()
                 return false
             }
         }
         )
-    }
-
-    private fun getComics() {
-        progressView.visibility = View.VISIBLE
-        isLoading = true
-        marvelViewModel.getComics(offset)
-            .subscribe(
-                { marvel ->
-                    hideSpinner()
-                    isLoading = false
-                    initRecyclerView(marvel.data.results)
-                },
-                { e ->
-                    Log.e(TAG, e.printStackTrace().toString())
-                    hideSpinner()
-                    isLoading = false
-                }
-            )
     }
 
     fun hideKeyboard() {
@@ -95,38 +112,8 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun getComics(comicTitle: String) {
-        progressView.visibility = View.VISIBLE
-        marvelViewModel.getComicsWithTitle(offset, comicTitle)
-            .subscribe(
-                { marvel ->
-                    hideSpinner()
-                    isLoading = false
-                    initRecyclerView(marvel.data.results)
-                },
-                { e ->
-                    Log.e(TAG, e.printStackTrace().toString())
-                    hideSpinner()
-                    isLoading = false
-                }
-            )
-    }
-
-    private fun hideSpinner() {
-        progressView.visibility = View.GONE
-        noComicsView.visibility = View.VISIBLE
-
-    }
-
-    private fun initRecyclerView(comicsList: ArrayList<MarvelResultsModel>) {
-        marvelComicsList.addAll(comicsList)
+    private fun initRecyclerView(comicsList: ArrayList<MarvelResultsModel>) {marvelComicsList.addAll(comicsList)
         layoutManager = LinearLayoutManager(this)
-        if (comicsList.isEmpty()) {
-            noComicsView.visibility = View.VISIBLE
-            comicsRecyclerView.visibility = View.GONE
-        } else {
-            noComicsView.visibility = View.GONE
-            comicsRecyclerView.visibility = View.VISIBLE
             comicsRecyclerView.layoutManager = layoutManager
             if (!isAdapterInitialized) {
                 marvelAdapter = MarvelAdapter(marvelComicsList)
@@ -135,28 +122,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 marvelAdapter.notifyDataSetChanged()
             }
-
-            comicsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val visibleItemCount = layoutManager.childCount
-                    val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    val total = marvelAdapter.itemCount
-
-                    if (!isLoading) {
-                        if ((visibleItemCount + pastVisibleItem) >= total) {
-                            offset++
-                            if (title.isEmpty()) {
-                                getComics()
-                            } else {
-                                getComics(title)
-                            }
-                        }
-
-                    }
-                }
-            })
-        }
     }
 
 }
